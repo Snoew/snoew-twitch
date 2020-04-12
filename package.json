@@ -4,7 +4,8 @@
   "description": "Backend for the snoew twitch site",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node server"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,10 @@
   },
   "homepage": "https://github.com/Snoew/snoew-twitch#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "pino": "^6.2.0",
+    "pino-pretty": "^4.0.0"
   }
 }
