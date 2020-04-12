@@ -1,0 +1,23 @@
+{
+  "name": "snoew-twitch",
+  "version": "1.0.0",
+  "description": "Backend for the snoew twitch site",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Snoew/snoew-twitch.git"
+  },
+  "keywords": [
+    "snoew",
+    "twitch"
+  ],
+  "author": "Sam Bentley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Snoew/snoew-twitch/issues"
+  },
+  "homepage": "https://github.com/Snoew/snoew-twitch#readme"
+}
