@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/Snoew/snoew-twitch/issues"
   },
-  "homepage": "https://github.com/Snoew/snoew-twitch#readme"
+  "homepage": "https://github.com/Snoew/snoew-twitch#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
+  }
 }
