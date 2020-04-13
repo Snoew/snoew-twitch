@@ -3,7 +3,7 @@ const express = require('express');
 var cors = require('cors')
 var app = express()
 app.use(cors())
-const port = 3000;
+const port = 42069;
 const fetch = require('node-fetch');
 const logger = require('pino')()
 
@@ -13,7 +13,7 @@ global.Headers = fetch.Headers;
 const clientId = config.clientId;
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost");
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
