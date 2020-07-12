@@ -1,73 +1,79 @@
-const config = require('./config');
+const logger = require('pino')();
 const express = require('express');
-var cors = require('cors')
-var app = express()
-app.use(cors())
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
 const port = 42069;
 const fetch = require('node-fetch');
-const logger = require('pino')()
+const config = require('./config');
 
+const logins = [
+  'Makaira',
+  'snoewwolf',
+  'Jhonsk',
+  'Onscreen', // BoothTl
+  'RandomWelshman',
+];
 global.Headers = fetch.Headers;
 
 // Make sure to add clientId field to config.js and do not include in vcs
-const clientId = config.clientId;
+const { clientId } = config;
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.get('/hello', (req, res) => res.send('Hello World!'));
 
-app.get('/users', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    getUsers(res);
-});
-
-app.get('/streams', function (req, res, next) {
-    logger.debug("request on streams")
-    res.setHeader('Content-Type', 'application/json');
-    getStreams(res);
-});
-
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
-
-
-function getUsers(res) {        
-    var myHeaders = new Headers();
-    myHeaders.append("Client-ID", clientId);
-
-    var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-    };
-
-    fetch("https://api.twitch.tv/helix/users?login=Makaira&login=snoewwolf&login=BoothTl&login=Jhonsk&login=RandomWelshman", requestOptions)
-    .then(response => response.text())
-    .then(result => sendResponse(res, result))
-    .catch(error => console.log('error', error));
-}
-
-function getStreams(res) {        
-    var myHeaders = new Headers();
-    myHeaders.append("Client-ID", clientId);
-
-    var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-    };
-
-    fetch("https://api.twitch.tv/helix/streams?user_login=Makaira&user_login=snoewwolf&user_login=BoothTl&user_login=Jhonsk&user_login=RandomWelshman", requestOptions)
-    .then(response => response.text())
-    .then(result => sendResponse(res, result))
-    .catch(error => console.log('error', error));
-}
-
 function sendResponse(res, result) {
-    console.log('test');
-    logger.info(result.json);
-    res.send(result);
+  res.send(result);
 }
+
+function getUsers(res) {
+  const myHeaders = new Headers();
+  myHeaders.append('Client-ID', clientId);
+
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  fetch(`https://api.twitch.tv/helix/users?login=${logins[0]}&login=${logins[1]}&login=${logins[2]}&login=${logins[3]}&login=${logins[4]}`, requestOptions)
+    .then((response) => response.text())
+    .then((result) => sendResponse(res, result))
+    .catch((error) => logger.error('error', error));
+}
+
+
+app.get('/users', (req, res) => {
+  logger.info('Request for users');
+  res.setHeader('Content-Type', 'application/json');
+  getUsers(res);
+});
+
+function getStreams(res) {
+  const myHeaders = new Headers();
+  myHeaders.append('Client-ID', clientId);
+
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
+
+  fetch(`https://api.twitch.tv/helix/streams?user_login=${logins[0]}&user_login=${logins[1]}&user_login=${logins[2]}&user_login=${logins[3]}&user_login=${logins[4]}`, requestOptions)
+    .then((response) => response.text())
+    .then((result) => sendResponse(res, result))
+    .catch((error) => logger.error('error', error));
+}
+
+app.get('/streams', (req, res) => {
+  logger.info('Request for streams');
+  res.setHeader('Content-Type', 'application/json');
+  getStreams(res);
+});
+
+app.listen(port, () => logger.info(`Snoew-Twitch listening at http://localhost:${port}`));
